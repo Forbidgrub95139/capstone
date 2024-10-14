@@ -14,7 +14,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-300 h-24">
+    <Disclosure as="nav" className="bg-white h-24">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
           {/* Mobile menu button */}
@@ -29,8 +29,12 @@ export default function Navbar() {
           {/* Logo Text instead of Image */}
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
+<<<<<<< Updated upstream
               {/* Replace the image with a text element */}
               <span className="text-4xl font-semibold text-black" style={{ fontFamily: 'Bebas Neue, normal' }}>
+=======
+              <span className="text-4xl mr-5 font-semibold text-black" style={{ fontFamily: 'Bebas Neue, normal' }}>
+>>>>>>> Stashed changes
                 SCENTOPEDIA
               </span>
             </div>
@@ -52,8 +56,12 @@ export default function Navbar() {
                 ))}
               </div>
 
+<<<<<<< Updated upstream
               {/* Search Bar */}
               <div className="ml-10 flex items-center space-x-2">
+=======
+              <div className="pl-20 flex items-center space-x-2">
+>>>>>>> Stashed changes
                 <input
                   type="text"
                   className="block w-64 px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
