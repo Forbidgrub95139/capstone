@@ -1,15 +1,15 @@
 // src/components/Navbar.tsx
 import React from 'react';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Disclosure } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/authContext/authProvider.tsx'; // Import useAuth hook
+import { useAuth } from '../contexts/authContext/AuthProvider';
 
 const navigation = [
   { name: 'Fragrances', href: '/fragrances' },
   { name: 'Brands', href: '/brands' },
-  { name: 'Notes', href: '/notes' },
   { name: 'About', href: '/about' },
+  { name: 'Your Lists', href: '/your-lists' }, // Replacing 'Notes' with 'Your Lists'
 ];
 
 function classNames(...classes: string[]) {
@@ -82,13 +82,7 @@ export default function Navbar() {
             ) : user ? (
               // User is logged in
               <>
-                <Link
-                  to="/my-lists"
-                  className="text-gray-900 font-semibold font-lg mr-4 px-3 py-2 bg-gray-100 rounded-md hover:bg-gray-300 transition duration-150 ease-in-out"
-                >
-                  My Lists
-                </Link>
-                <Link to="/profile">
+                <Link to="/your-lists">
                   <img
                     src={user.photoURL || '/default-avatar.png'} // Show profile picture or default
                     alt="Profile"
