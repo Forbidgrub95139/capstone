@@ -1,6 +1,6 @@
 // src/components/Navbar.tsx
 import React from 'react';
-import { Disclosure } from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/authContext/AuthProvider';
@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Fragrances', href: '/fragrances' },
   { name: 'Brands', href: '/brands' },
   { name: 'About', href: '/about' },
-  { name: 'Your Lists', href: '/your-lists' }, // Replacing 'Notes' with 'Your Lists'
 ];
 
 function classNames(...classes: string[]) {
@@ -17,8 +16,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
-  const location = useLocation(); // Get current location to highlight active link
-  const { user, loading, login, logout } = useAuth(); // Access auth state and actions
+  const location = useLocation();
+  const { user, loading, login, logout } = useAuth();
 
   return (
     <Disclosure as="nav" className="bg-white h-24">
@@ -56,21 +55,21 @@ export default function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-              </div>
 
-              {/* Search Bar */}
-              <div className="ml-10 pl-16 flex items-center font-body space-x-2">
-                <input
-                  type="text"
-                  className="block w-64 px-4 py-2 border-2 border-gray-700 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Search fragrances..."
-                />
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-white text-gray-900 rounded-md border-2 border-gray-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                >
-                  Search
-                </button>
+                {/* Show 'Your Lists' link only if user is logged in */}
+                {user && (
+                  <Link
+                    to="/your-lists"
+                    className={classNames(
+                      location.pathname === '/your-lists'
+                        ? 'bg-gray-900 text-white'
+                        : 'text-gray-900 hover:bg-gray-500 hover:text-white',
+                      'rounded-md px-3 py-2 text-xl font-medium font-title transition duration-150 ease-in-out'
+                    )}
+                  >
+                    Your Lists
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -80,11 +79,10 @@ export default function Navbar() {
             {loading ? (
               <span className="text-gray-900 font-semibold font-lg ml-10">Loading...</span>
             ) : user ? (
-              // User is logged in
               <>
                 <Link to="/your-lists">
                   <img
-                    src={user.photoURL || '/default-avatar.png'} // Show profile picture or default
+                    src={user.photoURL || '/default-avatar.png'}
                     alt="Profile"
                     className="h-8 w-8 rounded-full cursor-pointer hover:ring-2 hover:ring-indigo-500 transition duration-150 ease-in-out"
                   />
@@ -97,7 +95,6 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              // User is not logged in
               <button
                 onClick={login}
                 className="text-gray-900 text-lg font-xl ml-10 px-3 font-title py-2 bg-gray-100 rounded-md hover:bg-gray-300 transition duration-150 ease-in-out"
@@ -108,24 +105,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      <Disclosure.Panel className="sm:hidden">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          {navigation.map((item) => (
-            <Disclosure.Button
-              key={item.name}
-              as={Link}
-              to={item.href}
-              className={classNames(
-                location.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium transition duration-150 ease-in-out'
-              )}
-            >
-              {item.name}
-            </Disclosure.Button>
-          ))}
-        </div>
-      </Disclosure.Panel>
     </Disclosure>
   );
 }
