@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useFragrances from '../hooks/useFragrances';
-import { Box, Tabs, Tab, Dialog, DialogTitle, DialogContent, DialogActions, Checkbox, FormControlLabel, Button } from '@mui/material';
+import { Box, Tabs, Tab, Dialog, DialogTitle, DialogContent, DialogActions, Checkbox, FormControlLabel, Button, duration } from '@mui/material';
 import { useAuth } from '../contexts/authContext/AuthProvider';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -83,9 +83,9 @@ const FragrancePage: React.FC = () => {
           });
         }
       }
-      toast.success('Fragrance added to selected wishlists!');
+      toast.success('Fragrance added to selected wishlists!', {duration: 1500});
     } catch (error) {
-      console.error('Error adding fragrance to wishlists:', error);
+      console.error('Error adding fragrance to wishlists:', error, {duration: 1500});
       toast.error('Failed to add fragrance. Please try again.');
     } finally {
       handleModalClose();
@@ -102,9 +102,9 @@ const FragrancePage: React.FC = () => {
       await updateDoc(userDocRef, {
         favorites: arrayUnion(id),
       });
-      toast.success('Fragrance added to favorites!');
+      toast.success('Fragrance added to favorites!', {duration: 1500});
     } catch (error) {
-      console.error('Error adding fragrance to favorites:', error);
+      console.error('Error adding fragrance to favorites:', error, {duration: 1500});
       toast.error('Failed to add fragrance. Please try again.');
     }
   };
