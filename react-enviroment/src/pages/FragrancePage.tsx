@@ -5,6 +5,7 @@ import { Box, Tabs, Tab, Dialog, DialogTitle, DialogContent, DialogActions, Chec
 import { useAuth } from '../contexts/authContext/AuthProvider';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import toast, { Toaster } from 'react-hot-toast';
 
 function TabPanel(props: { children?: React.ReactNode; index: number; value: number }) {
   const { children, value, index, ...other } = props;
@@ -82,11 +83,10 @@ const FragrancePage: React.FC = () => {
           });
         }
       }
-
-      alert('Fragrance added to selected wishlists!');
+      toast.success('Fragrance added to selected wishlists!');
     } catch (error) {
       console.error('Error adding fragrance to wishlists:', error);
-      alert('Failed to add fragrance. Please try again.');
+      toast.error('Failed to add fragrance. Please try again.');
     } finally {
       handleModalClose();
     }
@@ -102,11 +102,10 @@ const FragrancePage: React.FC = () => {
       await updateDoc(userDocRef, {
         favorites: arrayUnion(id),
       });
-
-      alert('Fragrance added to favorites!');
+      toast.success('Fragrance added to favorites!');
     } catch (error) {
       console.error('Error adding fragrance to favorites:', error);
-      alert('Failed to add fragrance. Please try again.');
+      toast.error('Failed to add fragrance. Please try again.');
     }
   };
 
@@ -119,7 +118,10 @@ const FragrancePage: React.FC = () => {
   }
 
   return (
-    <div className="">
+    <div>
+      {/* Add Toaster for Notifications */}
+      <Toaster position="top-center" />
+
       {/* Header Section */}
       <div className="flex items-center w-full mr-32 justify-center">
         <div className="w-1/2 h-full flex items-center justify-center overflow-hidden rounded-lg">
@@ -170,20 +172,11 @@ const FragrancePage: React.FC = () => {
           {/* Add to List Buttons */}
           {user && (
             <div className="mt-4">
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={addToFavorites}
-                sx={{ mr: 2 }}
-              >
+              <Button variant="contained" color="secondary" onClick={addToFavorites} sx={{ mr: 2 }}>
                 Add to Favorites
               </Button>
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleModalOpen}
-              >
+              <Button variant="contained" color="primary" onClick={handleModalOpen}>
                 Add to Wishlists
               </Button>
             </div>
